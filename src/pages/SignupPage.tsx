@@ -36,11 +36,11 @@ const SignupPage =() => {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6">
+          <Link to="/" className="inline-flex items-center gap-2 mb-2">
             <MessageSquare className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold text-foreground">VaugeSynce</span>
           </Link>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Create your account</h1>
+
           <p className="text-muted-foreground">Start your 14-day free trial today</p>
         </div>
 
