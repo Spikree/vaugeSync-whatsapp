@@ -17,14 +17,15 @@ import { AuthStore } from "@/store/AuthStore";
 
 const LoginPage = () => {
 
-  const {login} = AuthStore();
+  const {login,checkAuth} = AuthStore();
 
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login(userName, password)
+    login(userName, password);
+    checkAuth();
   };
 
   return (

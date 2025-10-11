@@ -23,6 +23,7 @@ const SignupPage =() => {
     e.preventDefault()
     // Handle sign up logic here
     console.log("Sign up:", formData)
+    // checkAuth()
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
