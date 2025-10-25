@@ -1,7 +1,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +17,9 @@ import { AuthStore } from "@/store/AuthStore";
 
 const LoginPage = () => {
 
-  const {login,checkAuth} = AuthStore();
+  const {login} = AuthStore();
+
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,7 +27,7 @@ const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(userName, password);
-    checkAuth();
+    navigate("/dashboard");
   };
 
   return (

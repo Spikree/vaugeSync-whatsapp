@@ -1,16 +1,12 @@
-import { AuthStore } from "@/store/AuthStore";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = () => {
-  const { authUser, isCheckingAuth } = AuthStore();
 
   const location = useLocation();
 
-  if (isCheckingAuth) {
-    return null;
-  }
+  const token = localStorage.getItem("token");
 
-  return authUser ? (
+  return token ? (
     <Outlet />
   ) : (
     <Navigate to={"/login"} state={{ from: location }} />

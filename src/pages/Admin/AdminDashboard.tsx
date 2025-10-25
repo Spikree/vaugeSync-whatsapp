@@ -1,19 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { AdminStore } from "@/store/AdminStore"
+
 import { AuthStore } from "@/store/AuthStore";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-    const {getUsers} = AdminStore();
+
     const {logout, checkAuth} = AuthStore();
+    const navigator = useNavigate();
 
     useEffect(() => {
-        getUsers();
-    },[getUsers])
+      checkAuth();
+    },[checkAuth])
 
     const logoutUser = () => {
-      logout();
-      checkAuth();
+      logout().then(() => {
+        navigator("/login")
+      })
     }
   return (
     <div>

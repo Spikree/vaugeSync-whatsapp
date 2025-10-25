@@ -3,16 +3,10 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import { useEffect } from "react";
-import { AuthStore } from "./store/AuthStore";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
 
 function App() {
-  const { checkAuth } = AuthStore();
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   return (
     <>
