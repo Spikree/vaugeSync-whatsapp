@@ -1,12 +1,19 @@
+import { AuthStore } from "@/store/AuthStore";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 
 const AuthRoutes = () => {
+  const { authUser, isCheckingAuth } = AuthStore();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
 
-  const token = localStorage.getItem("token");
+  const isAuthRoute =
+    location.pathname === "/" || location.pathname === "/login";
 
-  if (token) {
+  if (isCheckingAuth) {
+    return null;
+  }
+
+  if (authUser && isAuthRoute) {
     return <Navigate to={from} replace />;
   }
 

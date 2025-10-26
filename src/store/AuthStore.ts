@@ -4,15 +4,13 @@ import type { AxiosError } from "axios";
 import { toast } from "sonner";
 
 interface authUser {
-  authenticated: boolean;
+  success: boolean;
   user: {
-    id: number;
-    username: string;
-    roles: string[];
-    enabled: boolean;
-    accountLocked: boolean;
-    accountExpired: boolean;
-    passwordExpired: boolean;
+    id: string,
+    username: string,
+    roles: string[],
+    clientId: string,
+    client: string
   };
 }
 
@@ -21,8 +19,6 @@ interface AuthStore {
 
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  authToken: string;
-  refreshToken: string;
   checkAuth: () => Promise<void>;
 
   isCheckingAuth: boolean;
@@ -31,9 +27,6 @@ interface AuthStore {
 export const AuthStore = create<AuthStore>((set) => ({
   authUser: null,
   isCheckingAuth: false,
-
-  authToken: "",
-  refreshToken: "",
 
   login: async (username: string, password: string) => {
     const formData = {
@@ -44,10 +37,6 @@ export const AuthStore = create<AuthStore>((set) => ({
       const response = await axiosInstance.post("/api/login", formData);
       toast.success("Logged in");
       set({ authUser: response.data.user });
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-      set({ authToken: response.data.token });
-      set({refreshToken: response.data.refreshToken});
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
@@ -57,16 +46,9 @@ export const AuthStore = create<AuthStore>((set) => ({
   },
 
   logout: async () => {
-    const rToken = localStorage.getItem("refreshToken");
     try {
-      const response = await axiosInstance.post("/api/logout", {
-        refreshToken : rToken
-      });
+      const response = await axiosInstance.post("/api/logout");
       console.log(response);
-      if (response) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken")
-      }
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
@@ -78,12 +60,12 @@ export const AuthStore = create<AuthStore>((set) => ({
 
   checkAuth: async () => {
     try {
-      const response = await axiosInstance.get("/api/me");
+      const response = await axiosInstance.get("/api/refresh");
       console.log(response);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
-        axiosError.response?.data?.message || "Login please";
+        axiosError.response?.data?.message || "No auth provided";
       toast.error(errorMessage);
     }
   },

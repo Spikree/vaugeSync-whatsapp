@@ -5,8 +5,15 @@ import SignupPage from "./pages/SignupPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
+import { AuthStore } from "./store/AuthStore";
+import { useEffect } from "react";
 
 function App() {
+  const { checkAuth } = AuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <>
